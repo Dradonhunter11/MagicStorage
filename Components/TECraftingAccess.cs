@@ -25,7 +25,7 @@ namespace MagicStorage.Components
 
         public override bool ValidTile(Tile tile)
         {
-            return tile.type == mod.TileType("CraftingAccess") && tile.frameX == 0 && tile.frameY == 0;
+            return tile.type == ModContent.TileType<CraftingAccess>() && tile.frameX == 0 && tile.frameY == 0;
         }
 
         public void TryDepositStation(Item item)
@@ -137,15 +137,15 @@ namespace MagicStorage.Components
             }
         }
 
-        public override void NetSend(BinaryWriter writer, bool lightSend)
+        public override void NetSend(BinaryWriter writer)
         {
             foreach (Item item in stations)
             {
                 ItemIO.Send(item, writer, true, false);
             }
         }
-
-        public override void NetReceive(BinaryReader reader, bool lightReceive)
+        
+        public override void NetReceive(BinaryReader reader)
         {
             for (int k = 0; k < stations.Length; k++)
             {

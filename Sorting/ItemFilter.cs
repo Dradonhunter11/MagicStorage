@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.ModLoader;
 
 namespace MagicStorage.Sorting
 {
@@ -34,7 +35,7 @@ namespace MagicStorage.Sorting
     {
         public override bool Passes(Item item)
         {
-            return item.melee && item.pick == 0 && item.axe == 0 && item.hammer == 0;
+            return item.DamageType == DamageClass.Melee && item.pick == 0 && item.axe == 0 && item.hammer == 0;
         }
     }
 
@@ -42,7 +43,7 @@ namespace MagicStorage.Sorting
     {
         public override bool Passes(Item item)
         {
-            return item.ranged;
+            return item.DamageType == DamageClass.Ranged;
         }
     }
 
@@ -50,7 +51,7 @@ namespace MagicStorage.Sorting
     {
         public override bool Passes(Item item)
         {
-            return item.magic;
+            return item.DamageType == DamageClass.Magic;
         }
     }
 
@@ -58,7 +59,7 @@ namespace MagicStorage.Sorting
     {
         public override bool Passes(Item item)
         {
-            return item.summon;
+            return item.DamageType == DamageClass.Summon;
         }
     }
 
@@ -66,7 +67,7 @@ namespace MagicStorage.Sorting
     {
         public override bool Passes(Item item)
         {
-            return item.thrown;
+            return item.DamageType == DamageClass.Throwing;
         }
     }
 
@@ -74,7 +75,7 @@ namespace MagicStorage.Sorting
     {
         public override bool Passes(Item item)
         {
-            return !item.melee && !item.ranged && !item.magic && !item.summon && !item.thrown && item.damage > 0;
+            return item.DamageType != DamageClass.Melee && item.DamageType != DamageClass.Ranged && item.DamageType != DamageClass.Magic && item.DamageType != DamageClass.Summon && item.DamageType != DamageClass.Throwing && item.damage > 0;
         }
     }
 

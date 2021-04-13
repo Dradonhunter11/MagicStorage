@@ -1,4 +1,5 @@
 using System;
+using MagicStorage.Items;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -9,7 +10,8 @@ namespace MagicStorage.NPCs
 {
     public class ShadowDiamondDrop : GlobalNPC
     {
-        public override void NPCLoot(NPC npc)
+        // TODO: New loot system
+        public override void OnKill(NPC npc)
         {
             if (npc.type == NPCID.KingSlime && !StorageWorld.kingSlimeDiamond)
             {
@@ -85,7 +87,7 @@ namespace MagicStorage.NPCs
 
         private void DropDiamond(NPC npc, int stack)
         {
-            Item.NewItem(npc.position, npc.width, npc.height, mod.ItemType("ShadowDiamond"), stack);
+            Item.NewItem(npc.position, npc.width, npc.height, ModContent.ItemType<ShadowDiamond>(), stack);
         }
     }
 }

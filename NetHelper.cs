@@ -65,7 +65,7 @@ namespace MagicStorage
         {
             if (Main.netMode == 1)
             {
-                NetMessage.SendTileRange(Main.myPlayer, i, j, 2, 2);
+                NetMessage.SendTileSquare(Main.myPlayer, i, j, 2, 2);
                 NetMessage.SendData(MessageID.TileEntityPlacement, -1, -1, null, i, j, type);
             }
         }
@@ -444,7 +444,7 @@ namespace MagicStorage
             }
             if (item.stack > 0)
             {
-                item = player.GetItem(Main.myPlayer, item, false, true);
+                item = player.GetItem(Main.myPlayer, item, new GetItemSettings());
                 if (!item.IsAir)
                 {
                     player.QuickSpawnClonedItem(item, item.stack);

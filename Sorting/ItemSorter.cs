@@ -134,9 +134,9 @@ namespace MagicStorage.Sorting
         private static bool FilterName(Item item, string modFilter, string filter)
         {
             string modName = "Terraria";
-            if (item.modItem != null)
+            if (item.ModItem != null)
             {
-                modName = item.modItem.mod.DisplayName;
+                modName = item.ModItem.Mod.DisplayName;
             }
             return modName.ToLowerInvariant().IndexOf(modFilter.ToLowerInvariant()) >= 0 && item.Name.ToLowerInvariant().IndexOf(filter.ToLowerInvariant()) >= 0;
         }

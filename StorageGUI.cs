@@ -11,6 +11,8 @@ using Terraria.ModLoader;
 using Terraria.UI;
 using MagicStorage.Components;
 using MagicStorage.Sorting;
+using Terraria.Audio;
+using Terraria.GameContent;
 
 namespace MagicStorage
 {
@@ -68,8 +70,8 @@ namespace MagicStorage
         public static void Initialize()
         {
             InitLangStuff();
-            float itemSlotWidth = Main.inventoryBackTexture.Width * inventoryScale;
-            float itemSlotHeight = Main.inventoryBackTexture.Height * inventoryScale;
+            float itemSlotWidth = TextureAssets.InventoryBack.Width() * inventoryScale;
+            float itemSlotHeight = TextureAssets.InventoryBack.Height() * inventoryScale;
 
             panelTop = Main.instance.invBottom + 60;
             panelLeft = 20f;
@@ -195,10 +197,10 @@ namespace MagicStorage
             {
                 sortButtons = new UIButtonChoice(new Texture2D[]
                 {
-                    Main.inventorySortTexture[0],
-                    MagicStorage.Instance.GetTexture("SortID"),
-                    MagicStorage.Instance.GetTexture("SortName"),
-                    MagicStorage.Instance.GetTexture("SortNumber")
+                    TextureAssets.InventoryBack.Value,
+                    MagicStorage.Instance.GetTexture("SortID").Value,
+                    MagicStorage.Instance.GetTexture("SortName").Value,
+                    MagicStorage.Instance.GetTexture("SortNumber").Value
                 },
                 new LocalizedText[]
                 {
@@ -216,13 +218,13 @@ namespace MagicStorage
             {
                 filterButtons = new UIButtonChoice(new Texture2D[]
                 {
-                    MagicStorage.Instance.GetTexture("FilterAll"),
-                    MagicStorage.Instance.GetTexture("FilterMelee"),
-                    MagicStorage.Instance.GetTexture("FilterPickaxe"),
-                    MagicStorage.Instance.GetTexture("FilterArmor"),
-                    MagicStorage.Instance.GetTexture("FilterPotion"),
-                    MagicStorage.Instance.GetTexture("FilterTile"),
-                    MagicStorage.Instance.GetTexture("FilterMisc"),
+                    MagicStorage.Instance.GetTexture("FilterAll").Value,
+                    MagicStorage.Instance.GetTexture("FilterMelee").Value,
+                    MagicStorage.Instance.GetTexture("FilterPickaxe").Value,
+                    MagicStorage.Instance.GetTexture("FilterArmor").Value,
+                    MagicStorage.Instance.GetTexture("FilterPotion").Value,
+                    MagicStorage.Instance.GetTexture("FilterTile").Value,
+                    MagicStorage.Instance.GetTexture("FilterMisc").Value,
                 },
                 new LocalizedText[]
                 {
@@ -268,7 +270,7 @@ namespace MagicStorage
             if (Main.mouseX > panelLeft && Main.mouseX < panelLeft + panelWidth && Main.mouseY > panelTop && Main.mouseY < panelTop + panelHeight)
             {
                 player.mouseInterface = true;
-                player.showItemIcon = false;
+                player.cursorItemIconEnabled = false;
                 InterfaceHelper.HideItemIconCache();
             }
             basePanel.Draw(Main.spriteBatch);
@@ -373,7 +375,7 @@ namespace MagicStorage
                     if (TryDepositAll())
                     {
                         RefreshItems();
-                        Main.PlaySound(7, -1, -1, 1);
+                        SoundEngine.PlaySound(7, -1, -1, 1);
                     }
                 }
             }
@@ -415,14 +417,14 @@ namespace MagicStorage
                     Main.mouseItem = DoWithdraw(toWithdraw, ItemSlot.ShiftInUse);
                     if (ItemSlot.ShiftInUse)
                     {
-                        Main.mouseItem = player.GetItem(Main.myPlayer, Main.mouseItem, false, true);
+                        Main.mouseItem = player.GetItem(Main.myPlayer, Main.mouseItem, new GetItemSettings());
                     }
                     changed = true;
                 }
                 if (changed)
                 {
                     RefreshItems();
-                    Main.PlaySound(7, -1, -1, 1);
+                    SoundEngine.PlaySound(7, -1, -1, 1);
                 }
             }
 
@@ -469,9 +471,13 @@ namespace MagicStorage
                     {
                         Main.mouseItem.stack += result.stack;
                     }
+
+                    // TODO: Figure out what this was replaced with
+                    /*
                     Main.soundInstanceMenuTick.Stop();
                     Main.soundInstanceMenuTick = Main.soundMenuTick.CreateInstance();
-                    Main.PlaySound(12, -1, -1, 1);
+                    SoundEngine.PlaySound(12, -1, -1, 1);
+                    */
                     RefreshItems();
                 }
                 rightClickTimer--;

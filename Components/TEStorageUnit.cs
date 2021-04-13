@@ -78,7 +78,7 @@ namespace MagicStorage.Components
 
         public override bool ValidTile(Tile tile)
         {
-            return tile.type == mod.TileType("StorageUnit") && tile.frameX % 36 == 0 && tile.frameY % 36 == 0;
+            return tile.type == ModContent.TileType<StorageUnit>() && tile.frameX % 36 == 0 && tile.frameY % 36 == 0;
         }
 
         public override bool HasSpaceInStackFor(Item check, bool locked = false)
@@ -302,7 +302,7 @@ namespace MagicStorage.Components
         {
             if (UpdateTileFrame(locked))
             {
-                NetMessage.SendTileRange(-1, Position.X, Position.Y, 2, 2);
+                NetMessage.SendTileSquare(-1, Position.X, Position.Y, 2, 2);
             }
         }
 
@@ -382,7 +382,7 @@ namespace MagicStorage.Components
             }
         }
 
-        public override void NetSend(BinaryWriter trueWriter, bool lightSend)
+        public override void NetSend(BinaryWriter trueWriter)
         {
             /* Recreate a BinaryWriter writer */
             MemoryStream buffer = new MemoryStream(65536);
@@ -391,8 +391,8 @@ namespace MagicStorage.Components
             BinaryWriter writer = new BinaryWriter(writerBuffer);
 
             /* Original code */
-            base.NetSend(writer, lightSend);
-            if (netQueue.Count > Capacity / 2 || !lightSend)
+            base.NetSend(writer);
+            if (netQueue.Count > Capacity / 2)
             {
                 netQueue.Clear();
                 netQueue.Enqueue(UnitOperation.FullSync.Create());
@@ -426,7 +426,7 @@ namespace MagicStorage.Components
             writer.Dispose(); writerBuffer.Dispose(); compressor.Dispose(); buffer.Dispose();
         }
 
-        public override void NetReceive(BinaryReader trueReader, bool lightReceive)
+        public override void NetReceive(BinaryReader trueReader)
         {
             /* Reads the buffer off the network */
             MemoryStream buffer = new MemoryStream(65536);
@@ -440,7 +440,7 @@ namespace MagicStorage.Components
             BinaryReader reader = new BinaryReader(decompressor);
 
             /* Original code */
-            base.NetReceive(reader, lightReceive);
+            base.NetReceive(reader);
             if (TileEntity.ByPosition.ContainsKey(Position) && TileEntity.ByPosition[Position] is TEStorageUnit)
             {
                 TEStorageUnit other = (TEStorageUnit)TileEntity.ByPosition[Position];

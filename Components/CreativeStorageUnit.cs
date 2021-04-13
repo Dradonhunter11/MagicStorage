@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
@@ -13,12 +14,12 @@ namespace MagicStorage.Components
     {
         public override ModTileEntity GetTileEntity()
         {
-            return mod.GetTileEntity("TECreativeStorageUnit");
+            return ModContent.GetInstance<TECreativeStorageUnit>();
         }
 
         public override int ItemType(int frameX, int frameY)
         {
-            return mod.ItemType("CreativeStorageUnit");
+            return ModContent.ItemType<Items.CreativeStorageUnit>();
         }
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
@@ -29,7 +30,7 @@ namespace MagicStorage.Components
             Rectangle frame = new Rectangle(tile.frameX, tile.frameY, 16, 16);
             Color lightColor = Lighting.GetColor(i, j, Color.White);
             Color color = Color.Lerp(Color.White, lightColor, 0.5f);
-            spriteBatch.Draw(mod.GetTexture("Components/CreativeStorageUnit_Glow"), drawPos, frame, color);
+            spriteBatch.Draw(Mod.GetTexture("Components/CreativeStorageUnit_Glow").Value, drawPos, frame, color);
         }
     }
 }

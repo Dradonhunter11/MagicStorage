@@ -7,7 +7,7 @@ using Terraria.ModLoader.IO;
 
 namespace MagicStorage
 {
-    public class StorageWorld : ModWorld
+    public class StorageWorld : ModSystem
     {
         private const int saveVersion = 0;
         public static bool kingSlimeDiamond = false;
@@ -25,7 +25,8 @@ namespace MagicStorage
         public static bool ancientCultistDiamond = false;
         public static bool moonlordDiamond = false;
 
-        public override void Initialize()
+        // Initialize -> Load (may be incorrect?)
+        public override void Load()
         {
             kingSlimeDiamond = false;
             boss1Diamond = false;
@@ -43,7 +44,7 @@ namespace MagicStorage
             moonlordDiamond = false;
         }
 
-        public override TagCompound Save()
+        public override TagCompound SaveWorldData()
         {
             TagCompound tag = new TagCompound();
             tag["saveVersion"] = saveVersion;
@@ -64,7 +65,7 @@ namespace MagicStorage
             return tag;
         }
 
-        public override void Load(TagCompound tag)
+        public override void LoadWorldData(TagCompound tag)
         {
             kingSlimeDiamond = tag.GetBool("kingSlimeDiamond");
             boss1Diamond = tag.GetBool("boss1Diamond");

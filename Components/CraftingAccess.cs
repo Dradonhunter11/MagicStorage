@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameInput;
@@ -15,12 +16,12 @@ namespace MagicStorage.Components
     {
         public override ModTileEntity GetTileEntity()
         {
-            return mod.GetTileEntity("TECraftingAccess");
+            return ModContent.GetInstance<TECraftingAccess>();
         }
 
         public override int ItemType(int frameX, int frameY)
         {
-            return mod.ItemType("CraftingAccess");
+            return ModContent.ItemType<Items.CraftingAccess>();
         }
 
         public override bool HasSmartInteract()

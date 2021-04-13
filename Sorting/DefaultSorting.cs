@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace MagicStorage.Sorting
 {
@@ -97,27 +98,27 @@ namespace MagicStorage.Sorting
 
         private static bool MeleeWeapon(Item item)
         {
-            return item.maxStack == 1 && item.damage > 0 && item.ammo == 0 && item.melee && item.pick < 1 && item.hammer < 1 && item.axe < 1;
+            return item.maxStack == 1 && item.damage > 0 && item.ammo == 0 && item.DamageType == DamageClass.Melee && item.pick < 1 && item.hammer < 1 && item.axe < 1;
         }
 
         private static bool RangedWeapon(Item item)
         {
-            return item.maxStack == 1 && item.damage > 0 && item.ammo == 0 && item.ranged;
+            return item.maxStack == 1 && item.damage > 0 && item.ammo == 0 && item.DamageType == DamageClass.Ranged;
         }
 
         private static bool MagicWeapon(Item item)
         {
-            return item.maxStack == 1 && item.damage > 0 && item.ammo == 0 && item.magic;
+            return item.maxStack == 1 && item.damage > 0 && item.ammo == 0 && item.DamageType == DamageClass.Magic;
         }
 
         private static bool SummonWeapon(Item item)
         {
-            return item.maxStack == 1 && item.damage > 0 && item.summon;
+            return item.maxStack == 1 && item.damage > 0 && item.DamageType == DamageClass.Summon;
         }
 
         private static bool ThrownWeapon(Item item)
         {
-            return item.damage > 0 && (item.ammo == 0 || item.notAmmo) && item.shoot > 0 && item.thrown;
+            return item.damage > 0 && (item.ammo == 0 || item.notAmmo) && item.shoot > 0 && item.DamageType == DamageClass.Throwing;
         }
 
         private static bool Weapon(Item item)
