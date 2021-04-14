@@ -1055,7 +1055,7 @@ namespace MagicStorage
             try
             {
                 BlockRecipes.active = false;
-                if (!RecipeHooks.RecipeAvailable(recipe))
+                if (!RecipeLoader.RecipeAvailable(recipe))
                 {
                     return false;
                 }
@@ -1425,7 +1425,7 @@ namespace MagicStorage
             Item resultItem = selectedRecipe.createItem.Clone();
             resultItem.Prefix(-1);
 
-            RecipeHooks.OnCraft(resultItem, selectedRecipe);
+            RecipeLoader.OnCraft(resultItem, selectedRecipe);
             // TODO: Find out if this still exists: ItemLoader.OnCraft(resultItem, selectedRecipe);
 
             if (Main.netMode == 0)
